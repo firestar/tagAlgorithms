@@ -29,7 +29,7 @@ public class BuildIndex implements Runnable{
 		this.page = page;
 	}
 	public void run() {
-		if(page>400){
+		if(page>20){
 			return;
 		}
 		HttpClient client = HttpClients.createDefault();
