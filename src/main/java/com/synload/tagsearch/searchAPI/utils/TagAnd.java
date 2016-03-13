@@ -3,7 +3,6 @@ package com.synload.tagsearch.searchAPI.utils;
 import java.util.LinkedList;
 
 public class TagAnd {
-	private LinkedList<Integer> posts = new LinkedList<Integer>();
 	public TagAnd(){}
 	public static Tag compare(Tag t1, Tag t2){
 		if(t1.cap.length>t2.cap.length){
@@ -18,42 +17,37 @@ public class TagAnd {
 		int pos = 0;
 		int low = 0;
 		int high = t2.cap.length-1;
-		int prevLow = low;
-		
+		int prevLow = 0;
+		int i;
 		Tag t = new Tag(t1.getName()+"&"+t2.getName());
-		
-		int i = (int) Math.floor((low+high)/2);
-		
-		
-		while(pos<t1.cap.length){
-			if(low<=high){
-				if(t2.cap[i].compareTo(t1.cap[pos])==0){ // found match set low to 1 + i
+		int maxItems = t1.cap.length;
+		while(pos<maxItems){
+			if(high>=low){
+				i = (int) Math.floor((low+high)/2);
+				//System.out.println("i:"+i+" high:"+high+" low:"+low+" compare:"+t2.cap[i]+" key:"+t1.cap[pos]+" size1:"+t1.cap.length+" size2:"+t2.cap.length +" pos:"+pos);
+				if(t2.cap[i].equals(t1.cap[pos])){ // found match set low to i+1
 					t.getPosts().add(t2.cap[i]);
 					low = i+1;
+					prevLow = i+1;
 					high = t2.cap.length-1;
-					i = (int) Math.floor((low+high)/2);
 					pos++;
-				}else if(t1.cap[pos] > t2.cap[i]){
+				}else if(high==low){
+					low = prevLow;
+					high = t2.cap.length-1;
+					pos++;
+				}else if(t2.cap[i] < t1.cap[pos]){
 					low = i+1;
-					i = (int) Math.floor((low+high)/2);
 				}else{
 					high = i-1;
-					i = (int) Math.floor((low+high)/2);
 				}
 			}else{
-				pos++;
 				low = prevLow;
 				high = t2.cap.length-1;
-				i = (int) Math.floor((low+high)/2);
+				pos++;
 			}
+			maxItems = t1.cap.length;
 		}
 		t.cap();
 		return t;
-	}
-	public LinkedList<Integer> getPosts() {
-		return posts;
-	}
-	public void setPosts(LinkedList<Integer> posts) {
-		this.posts = posts;
 	}
 }

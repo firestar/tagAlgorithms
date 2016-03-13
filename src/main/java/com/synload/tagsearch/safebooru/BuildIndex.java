@@ -43,7 +43,7 @@ public class BuildIndex implements Runnable{
 				List<LinkedTreeMap> ul = gson.fromJson(jsonString, ArrayList.class);
 				for(LinkedTreeMap s : ul){
 					Post.create(s);
-					int id = (int) Math.round(Double.valueOf(s.get("id").toString()));
+					long id = (long) Math.round(Double.valueOf(s.get("id").toString()));
 					this.tag.add(id);
 				}
 				(new BuildIndex( tag, page+1)).run();
