@@ -64,6 +64,7 @@ public class Application {
 					end = System.currentTimeMillis() % 1000;
 					System.out.println(mapper.writeValueAsString(partials));
 					System.out.println(end-start+"ms");
+					System.out.println("Words: "+PartialSearch.wordList.size());
 				} catch (JsonProcessingException e) {
 					e.printStackTrace();
 				}

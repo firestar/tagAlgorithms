@@ -1,14 +1,12 @@
 apply plugin: 'java'
 apply plugin: 'eclipse'
+apply plugin: 'application'
+apply plugin: 'maven-publish'
 
 sourceCompatibility = 1.5
 version = '1.0'
-jar {
-    manifest {
-        attributes 'Implementation-Title': 'Gradle Quickstart',
-                   'Implementation-Version': version
-    }
-}
+
+mainClassName = 'com.synload.tagsearch.Application'
 
 repositories {
     mavenCentral()
@@ -23,14 +21,33 @@ dependencies {
     compile 'com.fasterxml.jackson.core:jackson-databind:2.7.2'
 }
 
-test {
-    systemProperties 'property': 'value'
-}
-
 uploadArchives {
     repositories {
        flatDir {
            dirs 'repos'
        }
+    }
+}
+task apiJar(type: Jar) {
+    baseName "publishing-api"
+    from sourceSets.main.output
+    exclude '**/impl/**'
+}
+
+publishing {
+    publications {
+        impl(MavenPublication) {
+            groupId 'com.synload.tagsearch'
+            artifactId 'tagsearch'
+            version '0.2'
+    
+            from components.java
+        }
+    }
+    repositories {
+        maven {
+            // change to point to your repo, e.g. http://my.org/repo
+            url "$buildDir/repo"
+        }
     }
 }

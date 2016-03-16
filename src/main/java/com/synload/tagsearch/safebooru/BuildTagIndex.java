@@ -15,8 +15,7 @@ import sun.misc.IOUtils;
 public class BuildTagIndex implements Runnable{
 	private String url = "http://gelbooru.com/index.php?page=tags&s=list&pid=%page%";
 	private int groupSize = 50;
-	@Override
-	public void run() {
+	public void run(){
 		int current = 0;
 		while(true){
 			HttpClient client = HttpClients.createDefault();
